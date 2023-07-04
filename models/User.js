@@ -19,6 +19,7 @@ const UserSchema = new Schema(
       type: String,
       required: [true, 'please enter your username'],
       unique: true,
+      minlength: [5, 'minimum length is 5 characters'],
     },
     password: {
       type: String,
@@ -27,3 +28,5 @@ const UserSchema = new Schema(
   },
   { timestamps: true }
 )
+
+module.exports = model('User', UserSchema)

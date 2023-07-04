@@ -15,13 +15,16 @@ const start = require('./utils/start')
 // ROUTES IMPORT
 const authRouter = require('./routes/auth')
 
+// USE MIDDLEWARE
+app.use(express.json())
+
 app.get('/', (req, res) => {
   res.send('<h1>RedInking</h1>')
 })
 
 app.use('/api/v1/auth', authRouter)
 
-// USE MIDDLEWARE
+// USE ERROR MIDDLEWARE
 app.use(notFoundMiddleware)
 app.use(ErrorHandlerMiddleware)
 
