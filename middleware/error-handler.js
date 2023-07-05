@@ -36,6 +36,11 @@ const ErrorHandlerMiddleware = (err, req, res, next) => {
     customError.fieldsMessage.push(construct)
   }
 
+  // SETUP UNAUTHENTICATED ERROR
+  if (err.type === 'unauthenticatedError') {
+    customError.type = 'unauthenticatedError'
+  }
+
   // return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ err })
   return res.status(customError.statusCode).json({
     type: customError.type,
