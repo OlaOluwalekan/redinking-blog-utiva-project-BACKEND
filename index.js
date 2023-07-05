@@ -14,6 +14,8 @@ const start = require('./utils/start')
 
 // ROUTES IMPORT
 const authRouter = require('./routes/auth')
+const postsRouter = require('./routes/posts')
+const userRouter = require('./routes/user')
 
 // USE MIDDLEWARE
 app.use(express.json())
@@ -23,6 +25,8 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/v1/auth', authRouter)
+app.use('/api/v1/post', postsRouter)
+app.use('/api/v1/user', userRouter)
 
 // USE ERROR MIDDLEWARE
 app.use(notFoundMiddleware)

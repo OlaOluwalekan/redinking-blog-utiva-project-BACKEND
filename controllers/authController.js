@@ -7,11 +7,31 @@ const registerUser = async (req, res) => {
   const newUser = await User.create(req.body)
   const { password, ...rest } = newUser._doc
   const token = newUser.createJWT()
-  res.status(StatusCodes.CREATED).json({ user: rest, token })
+  const codeToken = newUser.generateCode()
+  res.status(StatusCodes.CREATED).json({ user: rest, token, codeToken })
+}
+
+const verifyEmail = async (req, res) => {
+  const user = await User.findByIdAndUpdate(
+    req.userId,
+    { emailVerified: true },
+    { new: true, runValidators: true }
+  )
+  const { password, ...rest } = user._doc
+  const token = user.createJWT()
+  res.status(StatusCodes.OK).json({ user: rest, token })
+}
+
+const sendNewVerificationEmail = async (req, res) => {
+  const user = await User.findOne({ email: req.body.email })
+  const { password, ...rest } = user._doc
+  const codeToken = user.generateCode()
+  res.status(StatusCodes.CREATED).json({ user: rest, codeToken })
 }
 
 const loginUser = async (req, res) => {
   const { emailOrUsername, userPassword } = req.body
+
   if (!emailOrUsername || !userPassword) {
     throw new BadRequestError('username/email and password is required')
   }
@@ -24,9 +44,13 @@ const loginUser = async (req, res) => {
     throw new UnauthenticatedError('invalid username/email or password')
   }
 
-  const passwordIsCorrect = user.comparePassword(userPassword)
+  const passwordIsCorrect = await user.comparePassword(userPassword)
   if (!passwordIsCorrect) {
     throw new UnauthenticatedError('invalid username/email or password')
+  }
+
+  if (!user.emailVerified) {
+    throw new UnauthenticatedError('You need to verify your email')
   }
 
   const { password, ...rest } = user._doc
@@ -35,4 +59,9 @@ const loginUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ user: rest, token })
 }
 
-module.exports = { registerUser, loginUser }
+module.exports = {
+  registerUser,
+  loginUser,
+  verifyEmail,
+  sendNewVerificationEmail,
+}
