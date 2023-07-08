@@ -9,10 +9,14 @@ const updateUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ user })
 }
 
+// USER VIEW HIS OWN INFORMATIONS
 const getUser = async (req, res) => {
   const user = await User.findById(req.params.id)
   const { password, ...rest } = user._doc
   res.status(StatusCodes.OK).json({ user: rest })
 }
+
+// VIEW USER - OTHERS VIEW USER INFORMATION
+// const viewUser = async
 
 module.exports = { getUser, updateUser }

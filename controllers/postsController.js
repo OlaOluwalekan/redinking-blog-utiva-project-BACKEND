@@ -1,5 +1,6 @@
 const Post = require('../models/Post')
 const { StatusCodes } = require('http-status-codes')
+const NotFoundError = require('../errors/not-found')
 
 // CREATE POST
 const createPost = async (req, res) => {
@@ -8,25 +9,52 @@ const createPost = async (req, res) => {
   res.status(StatusCodes.CREATED).json({ newPost })
 }
 
-// GET POST
+// GET ALL POSTS
 const getAllPosts = async (req, res) => {
   const posts = await Post.find({})
+  res.status(StatusCodes.OK).json({ posts, count: posts.length })
+}
+
+// GET ALL POSTS CREATED BY A PARTICULAR USER
+const getAllPostsByUserId = async (req, res) => {
+  const posts = await Post.find({ createdBy: req.user.userId })
   res.status(StatusCodes.OK).json({ posts, count: posts.length })
 }
 
 // GET SINGLE POST
 const getSinglePost = async (req, res) => {
   const post = await Post.findById(req.params.id)
+  if (!post) {
+    throw new NotFoundError(`The post you seek may have been removed`)
+  }
   res.status(StatusCodes.OK).json({ post })
 }
+
 const getRandomPosts = async (req, res) => {
   res.send('getRandom post')
 }
+
 const updatePost = async (req, res) => {
-  res.send('update post')
+  const post = await Post.findOneAndUpdate(
+    { _id: req.params.id, createdBy: req.user.userId },
+    req.body,
+    { new: true, runValidators: true }
+  )
+  if (!post) {
+    throw new NotFoundError(`The post you seek may have been removed`)
+  }
+  res.status(StatusCodes.OK).json({ post })
 }
+
 const deletePost = async (req, res) => {
-  res.send('delete post')
+  const post = await Post.findOneAndDelete({
+    _id: req.params.id,
+    createdBy: req.user.userId,
+  })
+  if (!post) {
+    throw new NotFoundError(`The post you seek may have been removed`)
+  }
+  res.status(StatusCodes.OK).send('post deleted')
 }
 
 module.exports = {
@@ -36,4 +64,5 @@ module.exports = {
   getRandomPosts,
   updatePost,
   deletePost,
+  getAllPostsByUserId,
 }
