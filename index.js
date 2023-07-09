@@ -5,6 +5,9 @@ require('express-async-errors')
 const express = require('express')
 const app = express()
 
+// IMPORT CORS
+const cors = require('cors')
+
 // IMPORT ERROR MIDDLEWARE
 const notFoundMiddleware = require('./middleware/not-found')
 const ErrorHandlerMiddleware = require('./middleware/error-handler')
@@ -18,6 +21,10 @@ const postsRouter = require('./routes/posts')
 const userRouter = require('./routes/user')
 
 // USE MIDDLEWARE
+// CORS ADDED - ALL ORIGIN FOR NOW
+app.use(cors())
+
+// USE JSON PARSER TO PARSE INCOMING REQUEST BODY
 app.use(express.json())
 
 app.get('/', (req, res) => {
