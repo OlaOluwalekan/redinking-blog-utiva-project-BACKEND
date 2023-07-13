@@ -9,7 +9,7 @@ const updateUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ user })
 }
 
-// USER VIEW HIS OWN INFORMATIONS
+// USER VIEW HIS OWN INFORMATION
 const getUser = async (req, res) => {
   const user = await User.findById(req.params.id)
   const { password, ...rest } = user._doc

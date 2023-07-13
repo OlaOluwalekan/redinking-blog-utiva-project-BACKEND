@@ -37,6 +37,18 @@ const UserSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    interests: {
+      type: Array,
+      default: [],
+    },
+    followers: {
+      type: Array,
+      default: [],
+    },
+    bookmarks: {
+      type: Array,
+      default: [],
+    },
   },
   { timestamps: true }
 )

@@ -8,6 +8,7 @@ const registerUser = async (req, res) => {
   const { password, ...rest } = newUser._doc
   const token = newUser.createJWT()
   const codeToken = newUser.generateCode()
+  console.log(codeToken)
   res.status(StatusCodes.CREATED).json({ user: rest, token, codeToken })
 }
 
@@ -59,9 +60,18 @@ const loginUser = async (req, res) => {
   res.status(StatusCodes.OK).json({ user: rest, token })
 }
 
+const checkUsername = async (req, res) => {
+  const user = await User.findOne({ username: req.query.username })
+  if (user) {
+    return res.status(StatusCodes.OK).json({ msg: 'username taken' })
+  }
+  res.status(StatusCodes.OK).json({ msg: 'username available' })
+}
+
 module.exports = {
   registerUser,
   loginUser,
   verifyEmail,
   sendNewVerificationEmail,
+  checkUsername,
 }
