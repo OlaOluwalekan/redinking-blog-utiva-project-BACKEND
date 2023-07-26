@@ -21,9 +21,18 @@ const getAllPostsByUserId = async (req, res) => {
   res.status(StatusCodes.OK).json({ posts, count: posts.length })
 }
 
-// GET SINGLE POST
+// GET SINGLE POST BY POST ID
 const getSinglePost = async (req, res) => {
   const post = await Post.findById(req.params.id)
+  if (!post) {
+    throw new NotFoundError(`The post you seek may have been removed`)
+  }
+  res.status(StatusCodes.OK).json({ post })
+}
+
+// GET SINGLE POST BY SLUG
+const getSinglePostBySlug = async (req, res) => {
+  const post = await Post.findOne({ slug: req.params.slug })
   if (!post) {
     throw new NotFoundError(`The post you seek may have been removed`)
   }
@@ -57,6 +66,30 @@ const deletePost = async (req, res) => {
   res.status(StatusCodes.OK).send('post deleted')
 }
 
+const likePost = async (req, res) => {
+  const post = await Post.findOneAndUpdate(
+    { _id: req.params.id },
+    { likes: req.body },
+    { new: true, runValidators: true }
+  )
+  if (!post) {
+    throw new NotFoundError(`The post you seek may have been removed`)
+  }
+  res.status(StatusCodes.OK).json({ post })
+}
+
+const bookmarkPost = async (req, res) => {
+  const post = await Post.findOneAndUpdate(
+    { _id: req.params.id },
+    { likes: req.body },
+    { new: true, runValidators: true }
+  )
+  if (!post) {
+    throw new NotFoundError(`The post you seek may have been removed`)
+  }
+  res.status(StatusCodes.OK).json({ post })
+}
+
 module.exports = {
   createPost,
   getAllPosts,
@@ -65,4 +98,7 @@ module.exports = {
   updatePost,
   deletePost,
   getAllPostsByUserId,
+  getSinglePostBySlug,
+  likePost,
+  bookmarkPost,
 }

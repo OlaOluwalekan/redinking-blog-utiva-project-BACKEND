@@ -30,8 +30,14 @@ const UserSchema = new Schema(
       required: [true, 'please enter your password'],
       minlength: [4, 'password should have a minimum length of 4 characters'],
     },
+    aboutYou: {
+      type: String,
+      default: '',
+    },
     profileImage: {
       type: String,
+      default:
+        'https://res.cloudinary.com/dyyoorpns/image/upload/v1690124626/RedInking/Static%20Images/User/default-user_anepei.png',
     },
     emailVerified: {
       type: Boolean,
@@ -42,6 +48,10 @@ const UserSchema = new Schema(
       default: [],
     },
     followers: {
+      type: Array,
+      default: [],
+    },
+    following: {
       type: Array,
       default: [],
     },

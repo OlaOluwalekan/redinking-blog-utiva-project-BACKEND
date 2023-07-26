@@ -50,9 +50,10 @@ const loginUser = async (req, res) => {
     throw new UnauthenticatedError('invalid username/email or password')
   }
 
-  if (!user.emailVerified) {
-    throw new UnauthenticatedError('You need to verify your email')
-  }
+  // if (!user.emailVerified) {
+  //   res.redirect('http://localhost:5173/auth/register')
+  //   throw new UnauthenticatedError('You need to verify your email')
+  // }
 
   const { password, ...rest } = user._doc
 

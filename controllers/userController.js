@@ -2,11 +2,12 @@ const User = require('../models/User')
 const { StatusCodes } = require('http-status-codes')
 
 const updateUser = async (req, res) => {
-  const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+  const user = await User.findByIdAndUpdate(req.user.userId, req.body, {
     new: true,
     runValidators: true,
   })
-  res.status(StatusCodes.OK).json({ user })
+  const token = user.createJWT()
+  res.status(StatusCodes.OK).json({ user, token })
 }
 
 // USER VIEW HIS OWN INFORMATION
@@ -17,6 +18,20 @@ const getUser = async (req, res) => {
 }
 
 // VIEW USER - OTHERS VIEW USER INFORMATION
-// const viewUser = async
+const viewUser = async (req, res) => {
+  const user = await User.findById(req.params.id)
+  const { password, interests, bookmarks, ...rest } = user._doc
+  res.status(StatusCodes.OK).json({ user: rest })
+}
 
-module.exports = { getUser, updateUser }
+//  BOOKMARKS A POST
+const bookmarkPost = async (req, res) => {
+  const user = await User.findByIdAndUpdate(req.user.userId, req.body, {
+    new: true,
+    runValidators: true,
+  })
+  const token = user.createJWT()
+  res.status(StatusCodes.OK).json({ user, token })
+}
+
+module.exports = { getUser, updateUser, viewUser, bookmarkPost }

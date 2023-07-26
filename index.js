@@ -19,13 +19,14 @@ const start = require('./utils/start')
 const authRouter = require('./routes/auth')
 const postsRouter = require('./routes/posts')
 const userRouter = require('./routes/user')
+const CommentsRouter = require('./routes/comments')
 
 // USE MIDDLEWARE
 // CORS ADDED - ALL ORIGIN FOR NOW
 app.use(cors())
 
 // USE JSON PARSER TO PARSE INCOMING REQUEST BODY
-app.use(express.json())
+app.use(express.json({ limit: '100mb' }))
 
 app.get('/', (req, res) => {
   res.send('<h1>RedInking</h1>')
@@ -34,6 +35,7 @@ app.get('/', (req, res) => {
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/post', postsRouter)
 app.use('/api/v1/user', userRouter)
+app.use('/api/v1/comments', CommentsRouter)
 
 // USE ERROR MIDDLEWARE
 app.use(notFoundMiddleware)
