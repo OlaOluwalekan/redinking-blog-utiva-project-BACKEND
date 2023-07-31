@@ -8,20 +8,24 @@ const {
   getAllPostsByUserId,
   getSinglePostBySlug,
   likePost,
-  bookmarkPost,
+  getAllPostsByUsername,
+  getNewestPost,
+  getPostByUserInterest,
 } = require('../controllers/postsController')
 const auth = require('../middleware/authorization')
 const router = express.Router()
 
 router.route('/').post(auth, createPost).get(getAllPosts)
 router
-  .route('/:id')
+  .route('/posts/:id')
   .get(getSinglePost)
   .put(auth, updatePost)
   .delete(auth, deletePost)
 router.route('/slug/:slug').get(getSinglePostBySlug)
 router.route('/actions/like/:id').put(likePost)
-router.route('/actions/bookmark/:id').put(bookmarkPost)
-// router.route('/dashboard').get(auth, getAllPostsByUserId)
+router.route('/dashboard').get(auth, getAllPostsByUserId)
+router.route('/view/:username').get(getAllPostsByUsername)
+router.route('/latest').get(getNewestPost)
+router.route('/interests').get(auth, getPostByUserInterest)
 
 module.exports = router

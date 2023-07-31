@@ -18,12 +18,22 @@ const UserSchema = new Schema(
       type: String,
       required: [true, 'please enter your email'],
       unique: true,
+      lowercase: true,
     },
     username: {
       type: String,
       required: [true, 'please enter your username'],
       unique: true,
       minlength: [5, 'minimum length is 5 characters'],
+      // lowercase: true,
+      // validate: {
+      //   validator: async function (username) {
+      //     // Custom validator to check if the username is unique in a case-insensitive way
+      //     const user = await this.constructor.findOne({ username: username })
+      //     return !user // Return true if the username is unique (case-insensitive)
+      //   },
+      //   message: 'Username must be unique.',
+      // },
     },
     password: {
       type: String,
@@ -62,6 +72,8 @@ const UserSchema = new Schema(
   },
   { timestamps: true }
 )
+
+// UserSchema.index({ username: 1 }, { collation: { locale: 'en', strength: 1 } })
 
 UserSchema.pre('save', async function () {
   const salt = await bcrypt.genSalt(10)
