@@ -19,7 +19,7 @@ const getAllPosts = async (req, res) => {
 // GET NEWEST POST
 const getNewestPost = async (req, res) => {
   const date = new Date()
-  const post = await Post.find({}).sort({ createdAt: -1 }).limit(2)
+  const post = await Post.find({}).sort({ createdAt: -1 }).limit(5)
   res.status(StatusCodes.OK).json({ post })
 }
 
