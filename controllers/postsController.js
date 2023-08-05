@@ -45,7 +45,7 @@ const getTrendingPosts = async (req, res) => {
     'Climate Change',
     'Supply Chain Crisis',
     'Cryptocurrency',
-    'metaverse',
+    'Metaverse',
     'NFT',
     'Web3',
   ]
