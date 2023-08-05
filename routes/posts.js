@@ -11,6 +11,7 @@ const {
   getAllPostsByUsername,
   getNewestPost,
   getPostByUserInterest,
+  getTrendingPosts,
 } = require('../controllers/postsController')
 const auth = require('../middleware/authorization')
 const router = express.Router()
@@ -27,5 +28,6 @@ router.route('/dashboard').get(auth, getAllPostsByUserId)
 router.route('/view/:username').get(getAllPostsByUsername)
 router.route('/latest').get(getNewestPost)
 router.route('/interests').get(auth, getPostByUserInterest)
+router.route('/trending').get(getTrendingPosts)
 
 module.exports = router

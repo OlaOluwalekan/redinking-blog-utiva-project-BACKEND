@@ -36,6 +36,26 @@ const getPostByUserInterest = async (req, res) => {
     .json({ posts: interests.length === 0 ? posts : userInterest })
 }
 
+// TRENDING POSTS
+const getTrendingPosts = async (req, res) => {
+  const trendingTopics = [
+    'Monkeypox',
+    'Inflation',
+    'War in Ukraine',
+    'Climate Change',
+    'Supply Chain Crisis',
+    'Cryptocurrency',
+    'metaverse',
+    'NFT',
+    'Web3',
+  ]
+  const posts = await Post.find({})
+  const trendingPosts = posts.filter((post) => {
+    return post.tags.some((tag) => trendingTopics.includes(tag))
+  })
+  res.status(StatusCodes.OK).json({ posts: trendingPosts })
+}
+
 // GET ALL POSTS CREATED BY A PARTICULAR USER
 const getAllPostsByUserId = async (req, res) => {
   const posts = await Post.find({ createdBy: req.user.userId })
@@ -122,4 +142,5 @@ module.exports = {
   likePost,
   getNewestPost,
   getPostByUserInterest,
+  getTrendingPosts,
 }
