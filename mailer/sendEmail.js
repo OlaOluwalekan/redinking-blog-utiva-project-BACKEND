@@ -13,6 +13,7 @@ const sendEmail = (subject, temp, email) => {
   const transporter = nodemailer.createTransport({
     host: 'mail.labells.online',
     port: 465,
+    secure: true,
     auth: {
       user: 'admin@labells.online',
       pass: '@Jesus200593',
