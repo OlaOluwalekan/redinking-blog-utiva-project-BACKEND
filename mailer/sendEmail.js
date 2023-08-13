@@ -17,6 +17,7 @@ const sendEmail = (subject, temp, email) => {
     html: temp,
   }
 
+  console.log('about to send email')
   transporter.sendMail(emailOptions, (err, info) => {
     if (err) {
       console.log(err)
