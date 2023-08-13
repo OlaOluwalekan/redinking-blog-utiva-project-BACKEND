@@ -1,17 +1,26 @@
 const nodemailer = require('nodemailer')
 
 const sendEmail = (subject, temp, email) => {
+  // const transporter = nodemailer.createTransport({
+  //   service: 'gmail',
+  //   secure: true,
+  //   auth: {
+  //     user: 'app4bells@gmail.com',
+  //     pass: 'dktujwvuwvpfldrq',
+  //   },
+  // })
+
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    secure: true,
+    host: 'mail.labells.online',
+    port: 465,
     auth: {
-      user: 'app4bells@gmail.com',
-      pass: 'dktujwvuwvpfldrq',
+      user: 'admin@labells.online',
+      pass: '@Jesus200593',
     },
   })
 
   const emailOptions = {
-    from: 'app4bells@gmail.com',
+    from: 'admin@labells.online',
     to: email,
     subject: subject,
     html: temp,

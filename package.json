@@ -4,7 +4,7 @@
   "description": "Capstone blog project at Utiva for Binance Charity Tech Scholarship",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
