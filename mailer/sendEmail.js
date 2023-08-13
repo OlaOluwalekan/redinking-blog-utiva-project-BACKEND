@@ -27,6 +27,7 @@ const sendEmail = (subject, temp, email) => {
       console.log(`email sent successfully`)
     }
   })
+  console.log('email should have been sent by now')
 }
 
 module.exports = sendEmail
