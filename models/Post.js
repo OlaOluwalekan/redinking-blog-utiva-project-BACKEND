@@ -1,5 +1,4 @@
 const { Schema, model, Types } = require('mongoose')
-const htmlParser = require('html-react-parser')
 
 const PostSchema = new Schema(
   {
