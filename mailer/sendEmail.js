@@ -3,7 +3,7 @@ const nodemailer = require('nodemailer')
 const sendEmail = (subject, temp, email) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
-    secure: false,
+    secure: true,
     auth: {
       user: 'app4bells@gmail.com',
       pass: 'dktujwvuwvpfldrq',
